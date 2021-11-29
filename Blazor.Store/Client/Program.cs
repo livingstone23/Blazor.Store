@@ -1,3 +1,5 @@
+using Blazor.Store.Client.Services;
+using Blazor.Store.Client.Services.Interface;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +25,8 @@ namespace Blazor.Store.Client
 
             // Supply HttpClient instances that include access tokens when making requests to the server project
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Blazor.Store.ServerAPI"));
+
+            builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 
             builder.Services.AddApiAuthorization();
 

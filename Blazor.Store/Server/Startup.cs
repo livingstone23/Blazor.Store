@@ -51,6 +51,7 @@ namespace Blazor.Store.Server
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 
             services.AddControllersWithViews();
+
             services.AddRazorPages();
         }
 

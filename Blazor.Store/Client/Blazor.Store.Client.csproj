@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Shared\Blazor.Store.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
