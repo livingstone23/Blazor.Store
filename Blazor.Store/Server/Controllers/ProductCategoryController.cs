@@ -13,15 +13,14 @@ namespace Blazor.Store.Server.Controllers
     public class ProductCategoryController : ControllerBase
     {
 
-        private readonly IProductCategoryRepository _productCategoryRepository;
 
+        private readonly IProductCategoryRepository _productCategoryRepository;
 
 
         public ProductCategoryController(IProductCategoryRepository productCategoryRepository)
         {
             _productCategoryRepository = productCategoryRepository;
         }
-
 
 
         [HttpGet]

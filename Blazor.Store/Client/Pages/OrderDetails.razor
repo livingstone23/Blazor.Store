@@ -1,5 +1,6 @@
 ﻿@page "/orderDetails"
 @inject IProductCategoryService ProductCategoryService
+@inject IProductService ProductService
 
 <h3>OrderDetails</h3>
 <p>@Message</p>
@@ -9,8 +10,22 @@
     
 
      <EditForm Model="@Order">
-        <InputSelect class="form-control col-sm-5" @bind-Value="@Order.ProductCategoryId">
+         <label>Categories</label>
+
+        <InputSelect class="form-control col-sm-5" 
+            Value="@Order.ProductCategoryId"
+            ValueChanged="@((int productCategoryId)=> ProductCategoryHasChanged(productCategoryId))"
+            ValueExpression="@(() => Order.ProductCategoryId)"
+        >
            @foreach (var item in productCategories)
+           {
+                <option value ="@item.Id">@item.Name</option>    
+           }
+        </InputSelect>
+
+        <label>Products</label>
+        <InputSelect class="form-control col-sm-5" @bind-Value="@productId">
+           @foreach (var item in products)
            {
                 <option value ="@item.Id">@item.Name</option>    
            }
@@ -31,14 +46,17 @@ else
 
     public Order Order;
     public IEnumerable<ProductCategory> productCategories;
+    public IEnumerable<Product> products;
+    public int productId { get; set; }
     public string Message { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
         try
         {
-            Order = new Order();
+            Order = new Order() { ProductCategoryId = 1};
             productCategories = await ProductCategoryService.GetProductCategories();
+            await LoadProducts(Order.ProductCategoryId);
         }
         catch (Exception e)
         {
@@ -46,17 +64,19 @@ else
         }
     }
 
-    //protected async override Task OnInitializedAsync()
-    //{
-    //    try
-    //    {
-    //        Order = new Order();
-    //        productCategories = await ProductCategoryService.GetProductCategories();
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        Message = "There was an error..." + e.Message;
-    //    }
-    //}
+    protected async Task ProductCategoryHasChanged(int productCategoryId)
+    {
+        Order.ProductCategoryId = productCategoryId;
+
+        if (Order.ProductCategoryId > 0)
+            await LoadProducts(Order.ProductCategoryId);
+    } 
+
+    private async Task LoadProducts(int productCategoryId)
+    {
+        products = await ProductService.GetByCategory(productCategoryId);
+    }
+
+    
 
 }
