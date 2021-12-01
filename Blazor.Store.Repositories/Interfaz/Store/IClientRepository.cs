@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Blazor.Store.Repositories.Interfaz.Store
 {
-    public interface IOrderRepository
+    public interface IClientRepository
     {
-        Task<bool> InsertOrder(Order order);
+        Task<IEnumerable<Client>> GetAll();
     }
 }

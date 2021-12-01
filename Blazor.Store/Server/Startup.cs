@@ -53,6 +53,8 @@ namespace Blazor.Store.Server
             //Repositorios
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
             services.AddControllersWithViews();
 

@@ -1,6 +1,8 @@
 ﻿using Blazor.Store.Repositories.Interfaz.Store;
+using Blazor.Store.Shared.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Blazor.Store.Server.Controllers
 {
@@ -15,6 +17,21 @@ namespace Blazor.Store.Server.Controllers
             _orderRepository = orderRepository;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Order order )
+        {
+            if (order == null)
+                return BadRequest();
 
+            if (order.OrderNumber == 0)
+                ModelState.AddModelError("Order Number", "Order number can't be empty");
+
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _orderRepository.InsertOrder(order);
+
+            return NoContent();
+        }
     }
 }
