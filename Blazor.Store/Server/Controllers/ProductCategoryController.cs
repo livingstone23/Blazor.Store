@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blazor.Store.Server.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProductCategoryController : ControllerBase
