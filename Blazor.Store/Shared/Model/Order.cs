@@ -16,5 +16,7 @@ namespace Blazor.Store.Shared.Model
        public decimal Total { get; set; }
        public int ProductCategoryId { get; set; }
 
+       public List<Product> Products { get; set; }
+
     }
 }
