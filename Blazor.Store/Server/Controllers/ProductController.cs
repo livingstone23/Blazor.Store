@@ -27,5 +27,13 @@ namespace Blazor.Store.Server.Controllers
         }
 
 
+
+        [HttpGet("{id}")]
+        public async Task<Product> GeDetails(int id)
+        {
+            return await _productRepository.GetDatails(id);
+        }
+
+
     }
 }

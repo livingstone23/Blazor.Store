@@ -10,5 +10,13 @@ namespace Blazor.Store.Repositories.Interfaz.Store
     public interface IOrderRepository
     {
         Task<bool> InsertOrder(Order order);
+
+        Task<int> GetNextNumber();
+
+        Task<int> GetNextId();
+
+        Task<IEnumerable<Order>> GetAll();
+
+        Task<Order> GetDetails(int id);
     }
 }

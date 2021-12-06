@@ -34,7 +34,7 @@ namespace Blazor.Store.Server
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection2")));
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -47,13 +47,14 @@ namespace Blazor.Store.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            string dbConnectionString = this.Configuration.GetConnectionString("DefaultConnection2");
+            string dbConnectionString = this.Configuration.GetConnectionString("DefaultConnection");
             services.AddSingleton<IDbConnection>((sp) => new SqlConnection(dbConnectionString));
 
             //Repositorios
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderProductRepository, OrderProductRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
 
             services.AddControllersWithViews();

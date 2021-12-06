@@ -19,6 +19,48 @@ namespace Blazor.Store.Repositories.Repositories.Store
             _dbConnection = dbConnection;
         }
 
+        public async Task<IEnumerable<Order>> GetAll()
+        {
+            var sql = @" SELECT o.Id
+	                           ,OrderNumber
+	                           ,ClientId
+	                           ,OrderDate
+	                           ,DeliveryDate
+	                           ,Total
+	                           ,c.LastName + ', ' + c.FirstName As ClientName
+                        FROM Orders o
+	                        INNER JOIN Clients c ON o.ClientId = c.Id ";
+
+            return await _dbConnection.QueryAsync<Order>(sql, new { });
+        }
+
+        public async Task<Order> GetDetails(int id)
+        {
+            var sql = @" SELECT Id
+	                           ,OrderNumber
+	                           ,ClientId
+	                           ,OrderDate
+	                           ,DeliveryDate
+	                           ,Total	                          
+                        FROM Orders 
+	                    WHERE Id = @Id ";
+
+            return await _dbConnection.QueryFirstOrDefaultAsync<Order>(sql, new { Id = id });
+        }
+
+        public async Task<int> GetNextId()
+        {
+            var sql = @" Select IDENT_CURRENT('Orders') + 1 ";
+
+            return await _dbConnection.QueryFirstAsync<int>(sql, new { });
+        }
+
+        public async Task<int> GetNextNumber()
+        {
+            var sql = @" Select Max(OrderNumber) +1 from Orders";
+
+            return await _dbConnection.QueryFirstAsync<int>(sql, new { });
+        }
 
         public async Task<bool> InsertOrder(Order order)
         {

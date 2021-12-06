@@ -20,5 +20,9 @@ namespace Blazor.Store.Client.Services
 
         }
 
+        public async Task<Product> GetDetails(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<Product>($"api/product/{id}");
+        }
     }
 }

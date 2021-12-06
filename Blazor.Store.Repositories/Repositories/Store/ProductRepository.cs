@@ -21,9 +21,16 @@ namespace Blazor.Store.Repositories.Repositories.Store
 
         public async Task<IEnumerable<Product>> GetByCategory(int productCategoryId)
         {
-            var sql = @"Select Id, Name, Price, CategoryId From Products Where CategoryId = @Id";
+            var sql = @"Select Id, Name, Price, CategoryId as ProductCategoryId From Products Where CategoryId = @Id";
 
             return await _dbConnection.QueryAsync<Product>(sql, new { Id = productCategoryId });
+        }
+
+        public async Task<Product> GetDatails(int productId)
+        {
+            var sql = @"Select Id, Name, Price, CategoryId as ProductCategoryId From Products Where Id = @Id";
+
+            return await _dbConnection.QueryFirstOrDefaultAsync<Product>(sql, new { Id = productId });
         }
     }
 }

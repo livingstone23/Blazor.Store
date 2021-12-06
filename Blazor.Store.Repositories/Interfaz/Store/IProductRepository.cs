@@ -11,5 +11,6 @@ namespace Blazor.Store.Repositories.Interfaz.Store
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetByCategory(int productCategoryId);
+        Task<Product> GetDatails(int productId);
     }
 }
