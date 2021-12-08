@@ -10,6 +10,8 @@ namespace Blazor.Store.Repositories.Interfaz.Store
     public interface IOrderRepository
     {
         Task<bool> InsertOrder(Order order);
+        Task<bool> UpdateOrder(Order order);
+        Task DeleteOrder(int id);
 
         Task<int> GetNextNumber();
 

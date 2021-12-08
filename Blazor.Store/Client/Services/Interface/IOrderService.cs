@@ -13,5 +13,7 @@ namespace Blazor.Store.Client.Services.Interface
 
         Task<Order> GetDetails(int id);
 
+        Task DeleteOrder(int id);
+
     }
 }

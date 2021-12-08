@@ -19,6 +19,13 @@ namespace Blazor.Store.Repositories.Repositories.Store
             _dbConnection = dbConnection;
         }
 
+        public async Task DeleteOrder(int id)
+        {
+            var sql = @" DELETE FROM Orders WHERE Id = @Id ";
+
+            await _dbConnection.ExecuteAsync(sql, new { Id = id });
+        }
+
         public async Task<IEnumerable<Order>> GetAll()
         {
             var sql = @" SELECT o.Id
@@ -83,5 +90,30 @@ namespace Blazor.Store.Repositories.Repositories.Store
                 return result > 0;
            
         }
+
+        public async Task<bool> UpdateOrder(Order order)
+        {
+            var sql = @"
+                        UPDATE Orders 
+                            SET ClientId = @ClientId, 
+                                OrderDate =  @OrderDate, 
+                                DeliveryDate = @DeliveryDate
+                        WHERE Id = @Id
+                        ";
+
+            var result = await _dbConnection.ExecuteAsync(sql,
+                new
+                {
+                    order.OrderNumber,
+                    order.ClientId,
+                    order.OrderDate,
+                    order.DeliveryDate,
+                    order.Total,
+                    order.Id
+                });
+
+            return result > 0;
+        }
+    
     }
 }

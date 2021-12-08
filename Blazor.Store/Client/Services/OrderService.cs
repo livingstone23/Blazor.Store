@@ -19,8 +19,8 @@ namespace Blazor.Store.Client.Services
         {
             if (order.Id == 0)
                 await _httpClient.PostAsJsonAsync<Order>($"api/order/", order);
-            //else
-                //Invoke Update
+            else
+                await _httpClient.PutAsJsonAsync<Order>($"api/order/{order.Id}", order);
 
         }
 
@@ -37,6 +37,11 @@ namespace Blazor.Store.Client.Services
         public async Task<Order> GetDetails(int id)
         {
             return await _httpClient.GetFromJsonAsync<Order>($"api/order/{id}");
+        }
+
+        public async Task DeleteOrder(int id)
+        {
+            await _httpClient.DeleteAsync($"api/order/{id}");
         }
     }
 }

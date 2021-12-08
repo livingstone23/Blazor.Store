@@ -33,7 +33,14 @@
                         IconSize="Size.Small">
                 </MudFab>
             </MudTd>
-        
+            <MudTd DataLabel="">
+                <MudFab OnClick="@(() => Delete(OrderContext.Id))"
+                        Color="Color.Secondary"
+                        Icon="@Icons.Material.Filled.Delete"
+                        Size="Size.Small"
+                        IconSize="Size.Small">
+                </MudFab>
+            </MudTd>
         </RowTemplate>
      </MudTable>
 }
@@ -60,6 +67,12 @@
     protected async Task Edit(int id)
     {
         NavigationManager.NavigateTo($"/orderdetails/{id}");
+    }
+
+    protected async Task Delete(int id)
+    {
+        await OrderService.DeleteOrder(id);
+        Orders.RemoveAll(p => p.Id == id);
     }
 
 

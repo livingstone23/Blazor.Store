@@ -59,6 +59,38 @@ namespace Blazor.Store.Server.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] Order order)
+        {
+            if (order == null)
+                return BadRequest();
+
+            if (order.OrderNumber == 0)
+                ModelState.AddModelError("OrderNumber", "Order number can't be empty");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                await _orderRepository.UpdateOrder(order);
+
+                await _orderProductRepository.DeleteOrderProductByOrder(order.Id);
+
+                if (order.Products != null && order.Products.Any())
+                {
+                    foreach (var prd in order.Products)
+                    {
+                        await _orderProductRepository.InsertOrderProduct(order.Id, prd);
+                    }
+                }
+
+                scope.Complete();
+            }
+
+            return NoContent();
+        }
+
 
 
         [HttpGet("GetNextNumber")]
@@ -72,7 +104,14 @@ namespace Blazor.Store.Server.Controllers
         [HttpGet]
         public async Task<IEnumerable<Order>> Get()
         {
-            return await _orderRepository.GetAll();
+            var orders = await _orderRepository.GetAll();
+
+            foreach (var item in orders)
+            {
+                item.Products = (List<Product>)await _orderProductRepository.GetByOrder(item.Id);
+            }
+
+            return orders;
         }
 
 
@@ -87,5 +126,13 @@ namespace Blazor.Store.Server.Controllers
 
             return order;
         }
+
+        [HttpDelete("{id}")]
+        public async Task Delete(int id)
+        {
+            await _orderRepository.DeleteOrder(id);
+        }
+
+
     }
 }
