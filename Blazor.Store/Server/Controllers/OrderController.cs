@@ -10,7 +10,7 @@ using System.Transactions;
 
 namespace Blazor.Store.Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase

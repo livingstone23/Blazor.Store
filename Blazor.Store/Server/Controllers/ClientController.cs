@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazor.Store.Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
